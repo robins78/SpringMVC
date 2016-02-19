@@ -8,8 +8,8 @@
     http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 
 	<context:component-scan base-package="com.org.robin" />
-	<context:annotation-config />
-	  <bean id="myResource" class="com.org.robin.controller.Restcontorller"></bean>
+	<!-- <context:annotation-config />
+	  <bean id="myResource" class="com.org.robin.controller.Restcontorller"></bean> -->
 	<!-- <bean id="addr" class="com.org.robin.dao.AddressDao"></bean> -->
 	
 	<bean id="viewResolver"
@@ -18,6 +18,24 @@
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+	<bean id="myDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/robin" />
+		<property name="username" value="root" />
+		<property name="password" value="ikku@2007" />
+	</bean>
+
+	<!-- New configuration -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		p:packagesToScan="com.org.robin.dto" p:dataSource-ref="myDataSource">
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
 	
 </beans>
